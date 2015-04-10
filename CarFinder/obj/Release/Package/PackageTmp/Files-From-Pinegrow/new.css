@@ -1,0 +1,145 @@
+
+
+.center-block
+{
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+
+.border-hor  span
+{
+    background: url(./border-horiz.png) repeat-x 0 0;
+    height: 1px;
+    display: block;
+}
+
+.border-horiz.extra
+{
+    padding-top: 51px;
+}
+
+.comments
+{
+    font-size: 10px;
+    line-height: 1.3em;
+    color: #807c79;
+    overflow: hidden;
+    background: url(../img/border-horiz.png) repeat-x 0 bottom;
+    padding: 23px 0 10px;
+    margin-bottom: 23px;
+}
+
+.keepimagessize1
+{
+    width: 250px;
+    display: block;
+}
+
+.keepimagessize2
+{
+    display: block;
+    width: 350px;
+}
+
+.block-WithSideBordersLeft
+{
+    background-image: url('border-vert.png');
+    right: 0;
+    background-repeat: repeat-y;
+    background-position: 0;
+    background-color: #141211;
+}
+
+.keepimagessize0
+{
+    width: 130px;
+}
+
+.block-withUpButtomborders
+{
+    background-image: url('border-horiz.png');
+    background-repeat: repeat-x;
+    background-color: #141211;
+}
+
+.transparent
+{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.specsselect
+{
+    background-color: rgb(108, 42, 22);
+    color: #f3501e;
+    border: 1px solid rgb(204, 204, 204);
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    border-radius: 3px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    overflow: auto;
+    border-left: 1px;
+    border-right: 1px;
+    border-top: 1px;
+    border-bottom: 1px;
+    width: 100px;
+    text-align: center;
+    text-transform: capitalize;
+    vertical-align: middle;
+    float: left;
+    display: block;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 4px;
+    margin-top: 1%;
+}
+
+.fontitalic
+{
+    font-style: italic;
+}
+
+.menuItem
+{
+    color: #f3501e;
+    display: block;
+    position: relative;
+    z-index: 10;
+    font-size: 26px;
+    line-height: 1em;
+    text-transform: none;
+    text-align: center;
+    font-style: italic;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: bold;
+}
+
+.zeroMarging-Padding
+{
+    padding: 0;
+    margin: 0;
+}
+
+.futured
+{
+    z-index: 10;
+    position: relative;
+    display: block;
+    color: #f3501e;
+    font-size: 40px;
+    font-family: 'PT Sans', sans-serif;
+    line-height: 1m;
+    font-style: italic;
+    text-align: left;
+    font-weight: bold;
+}
+
+.keepimagessizeCrousel
+{
+    display: block;
+    width: 100%;
+}
+

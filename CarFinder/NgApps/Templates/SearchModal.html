@@ -1,0 +1,31 @@
+﻿<style>
+    /*.divimg {
+   width: 48px;
+   height: 48px;
+}*/
+
+div img {
+   display: block;
+   width: 100%;
+}
+</style>
+
+
+<div class="modal-header" style="margin-top:0px; padding-top:0px;position:center; background-image:url(../img/bg-body.jpg);">
+    <h4 class="modal-title">Search for anything</h4>
+    <input type="text" ng-model="modalOptions.query">
+    <a class="btn btn-1" style="text-align:right" ng-click="modalOptions.search()">Search</a>
+</div>
+<div class="modal-body grid" style="max-height:500px; overflow:auto;margin-top:0px; padding-top:0px; background-image:url(../img/bg-body.jpg);">
+    <h5>Images Results</h5>
+    <hr />
+    <div class="col-sm-12" ng-repeat="img in modalOptions.results">
+        <img src="{{img.url}}" />
+    </div>
+</div>
+
+<div class="modal-footer" style="margin-top:0px; padding-top:0px;  background-image:url(../img/bg-body.jpg);">
+    <!--<button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+    <button class="btn btn-1" ng-click="$close()">CLOSE</button>
+</div>

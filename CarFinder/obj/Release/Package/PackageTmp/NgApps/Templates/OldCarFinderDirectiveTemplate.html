@@ -1,0 +1,400 @@
+﻿<style>
+    ul, menu, dir {
+        display: block;
+        list-style-type: disc;
+        -webkit-margin-before: 1em;
+        -webkit-margin-after: 1em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
+        -webkit-padding-start: 0px;
+    }
+
+    select {
+        color: #f3501e;
+        background-color: rgb(108, 42, 22);
+    }
+</style>
+
+
+<link href="../../css/LoadingCircle.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<header style="padding-top: 20px;">
+    <!--============================== header =================================-->
+    <div class="row">
+        <div class="navbar navbar_ clearfix ">
+
+            <div class="row">
+                <div class="container">
+
+                    <h1 class="brand" style="margin-bottom:0px">
+                        <strong style="font-size:60px;color:rgb(191, 191, 191)">CAR FINDER</strong>
+                    </h1>
+                    <!--<div class="list-soc">
+                        <a class="soc-item1" href="http://livedemo00.template-help.com/wt_44442/#">
+                            <img alt="" src="./CarFinder_files/soc-icon1.png">
+                        </a>
+                        <a class="soc-item2" href="http://livedemo00.template-help.com/wt_44442/#">
+                            <img alt="" src="./CarFinder_files/soc-icon2.png">
+                        </a>
+                        <a class="soc-item3" href="http://livedemo00.template-help.com/wt_44442/#">
+                            <img alt="" src="./CarFinder_files/soc-icon3.png">
+                        </a>
+                        <a class="soc-item4" href="http://livedemo00.template-help.com/wt_44442/#">
+                            <img alt="" src="./CarFinder_files/soc-icon4.png">
+                        </a>
+                    </div>-->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="row-manu">
+                    <div class="nav-collapse nav-collapse_  collapse">
+                        <ul class="nav sf-menu clearfix sf-js-enabled" style="width:100%">
+                            <li>
+                                <!--class="active"-->
+                                <a href="Areas/HelpPage/Views/Help/Index.cshtml">Api Reference</a><!--http://livedemo00.template-help.com/wt_44442/index.html-->
+                            </li>
+                            <!--<li>
+                                <a href="http://livedemo00.template-help.com/wt_44442/index-1.html" class="sf-with-ul">About<b class="sf-sub-indicator"></b></a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">Magazine</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">Authors</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">Cars</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">Events</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">News</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://livedemo00.template-help.com/wt_44442/#">Awards</a>
+                                    </li>
+                                </ul>
+                            </li>-->
+                            <li>
+                                <div>
+                                    YEAR
+                                    <select style="width:100px" ng-model="selectedYear" ng-options="year for year in years" ng-change="ResetPagingInfo(); getMakes()" class="form-control"></select>
+                                    MAKE
+                                    <select style="width:100px" ng-model="selectedMake" ng-options="make for make in makes" ng-change="ResetPagingInfo(); getModels()" ng-disabled="selectedYears==''" class="form-control"></select>
+                                    MODEL
+                                    <select style="width:100px" ng-model="selectedModel" ng-options="model for model in models" ng-change="ResetPagingInfo(); getTrims()" ng-disabled="selectedMake==''" class="form-control"></select>
+
+                                    <strong ng-show="ShowTrimSelection()">TRIM</strong>
+                                    <select style="width:100px" ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="ResetPagingInfo(); getCars()" ng-show="ShowTrimSelection()" ng-disabled="selectedModel==''" class="form-control"></select>
+
+                                    <strong style="color:transparent"> >>>>>>>>>>>>>>>>      </strong>
+
+                                    Cars per page
+                                    <select style="width:75px; align-self:flex-end" data-ng-model="selectedShowAmmount" ng-options="amount for amount in showammounts" ng-change="getCarsAsync()" ng-disabled="selectedYears==''" class="form-control"></select>
+
+
+                                </div>
+                            </li>
+                        </ul>
+                        <p style="padding:0 0 0 0">
+                            {{selectedYear + "  -  " + selectedMake + "  -  " + selectedModel + "  -  " + selectedTrim}}
+                        </p>
+
+                        <div class="row" ng-show="cars!=''" style="text-align:right; padding-right:5%">
+                            Cars found {{totalCars}}
+                            <!--<div ng-model="selectedPage" total-items="totalItems" max-size="11" boundary-links="true" items-per-page="numPerPage">-->
+                            <!--Link to the first page-->
+                            <a href="" ng-click="GoToPage(1)" class="ng-binding" ng-show="selectedPage!='1'">First</a>
+                            <!--go to next page-->
+
+                            <a href="" ng-click="GoToNextPage(selectedPage)" class="ng-binding" ng-show="selectedPage!=pagesAvailable">Next</a>
+
+
+                            <!--center links-->
+                            <a href="" ng-repeat="page in pages" ng-click="GoToPage(page)" class="active">  {{page}}  </a>
+
+                            <!--go to next page-->
+                            <a href="" ng-click="GoToPrevPage(selectedPage)" class="ng-binding" ng-show="selectedPage!='1'">Prev</a>
+                            <!--Link to the first page-->
+                            <a href="" ng-click="GoToPage(pagesAvailable)" class="ng-binding" ng-show="selectedPage!=pagesAvailable">Last</a>
+
+                            Page {{selectedPage}} of {{pagesAvailable}}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--============================== slider =================================-->
+<style>
+    .center-block {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        vertical-align: central;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="vertical-align:bottom; align-content:center">
+        <div class="camera_wrap" style="display: block; margin-bottom: 74px; height: 350px;">
+            <div class="car{{cars[0].id}} center-block" ng-show="SlidesLoaded=='false'">
+                <div id="circularG" class="center-block">
+                    <div id="circularG_1" class="circularG">
+                    </div>
+                    <div id="circularG_2" class="circularG">
+                    </div>
+                    <div id="circularG_3" class="circularG">
+                    </div>
+                    <div id="circularG_4" class="circularG">
+                    </div>
+                    <div id="circularG_5" class="circularG">
+                    </div>
+                    <div id="circularG_6" class="circularG">
+                    </div>
+                    <div id="circularG_7" class="circularG">
+                    </div>
+                    <div id="circularG_8" class="circularG">
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-block" style="height: 350px; width:600px" ng-show="slides.length==10">
+                <carousel interval="myInterval" ng-show="SlidesLoaded=='true'">
+                    <slide ng-repeat="slide in slides" active="slide.active" style="">
+                        <img ng-src="{{slide.image}}" style="margin:auto;height: 350px; width:600px">
+                    </slide>
+                    <a href="" class="link-1" ng-click="showCarDetailsModal(cars[0])">
+                        <div class="carousel-caption" style="box-shadow: 0px -3px #f3501e;">
+                            <h4 style="margin-top:0px;padding-top:0px">{{cars[0].make}}</h4>
+                            <p style="margin-top:0px;padding-top:0px;padding-bottom:0px">{{cars[0].model_year}} - {{cars[0].model_name}} - {{cars[0].model_trim}}</p>
+                        </div>
+                    </a>
+                </carousel>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="border-horiz">
+    <span></span>
+</div>
+
+<!--============================== content =================================-->
+
+<style>
+    div img {
+        display: block;
+        width: 350px;
+    }
+</style>
+
+<div id=" content" class="extra-content">
+
+
+
+
+
+
+
+    <div class="row-1" ng-show="cars[1]!=null">
+        <div class="container">
+            <!--<h3>featured</h3>-->
+            <div class="row">
+                <div ng-repeat="car in cars" ng-if="$index > 0 &&  $index < 5" class="list-featured" style=" margin-left:0px; padding-left:0px">
+                    <div class="span3">
+                        <div class="car{{car.id}}">
+                            <div id="circularG" style="margin-left:15%;margin-top:7%">
+                                <div id="circularG_1" class="circularG">
+                                </div>
+                                <div id="circularG_2" class="circularG">
+                                </div>
+                                <div id="circularG_3" class="circularG">
+                                </div>
+                                <div id="circularG_4" class="circularG">
+                                </div>
+                                <div id="circularG_5" class="circularG">
+                                </div>
+                                <div id="circularG_6" class="circularG">
+                                </div>
+                                <div id="circularG_7" class="circularG">
+                                </div>
+                                <div id="circularG_8" class="circularG">
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" class="link-1" ng-click="showCarDetailsModal(car)">
+                            <div class="col-sm-12">
+                                <img src="{{car.images[0].url}}" alt="">
+                            </div>
+                            <time datetime="{{car.model_year}}" ng-click="showCarDetailsModal(car)" class="date-1">MODEL OF {{car.model_year}}</time>
+
+                            <div class="txt-1">
+                                {{car.make}} {{car.model_name}} {{car.model_trim}}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-horiz">
+        <span></span>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <article class="span9">
+                <h3>more cars</h3><!--car news-->
+                <ul class="list-new-cars" ng-show="cars[5]!=null">
+                    <li ng-repeat="car in cars" ng-if="$index > 4">
+                        <div class="car{{car.id}}">
+                            <div id="circularG" style="margin-left:15%;margin-top:7%">
+                                <div id="circularG_1" class="circularG">
+                                </div>
+                                <div id="circularG_2" class="circularG">
+                                </div>
+                                <div id="circularG_3" class="circularG">
+                                </div>
+                                <div id="circularG_4" class="circularG">
+                                </div>
+                                <div id="circularG_5" class="circularG">
+                                </div>
+                                <div id="circularG_6" class="circularG">
+                                </div>
+                                <div id="circularG_7" class="circularG">
+                                </div>
+                                <div id="circularG_8" class="circularG">
+                                </div>
+                            </div>
+                        </div>
+                        <figure>
+                            <a href="" class="link-1" ng-click="showCarDetailsModal(car)">
+                                <img src="{{car.images[0].url}}" alt="">
+                            </a>
+                        </figure>
+                        <div class="comments">
+                            <a href=""><time datetime="{{car.model_year}}" class="date-1" ng-click="showCarDetailsModal(car)">MODEL OF {{car.model_year}}</time></a>
+                            <!--BY
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">ADMIN</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">IN AENEAN NONUMMY, NEWS</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#" class="link-comments"><span>2</span> COMMENTS</a>-->
+                        </div>
+                        <div class="txt-1">
+                            <a href="" ng-click="showCarDetailsModal(car)">{{car.make}} {{car.model_name}} {{car.model_trim}}</a>
+                        </div>
+                        <p ng-click="showCarDetailsModal(car)">Lorem ipsum dolor sit amet consectetuer adipi scing elraesent ves tibm moeacuan nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque ptibus et magnis dis parturientdiculus mus. </p>
+                        <!--<a href="http://livedemo00.template-help.com/wt_44442/#" class="btn btn-1">more</a>-->
+                    </li>
+                    <!--<li>
+                        <figure>
+                            <img src="./CarFinder_files/page1-img6.jpg" alt="">
+                        </figure>
+                        <div class="comments">
+                            <time datetime="2013-07-14">14 JULY 2013</time>
+                            BY
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">ADMIN</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">IN AENEAN NONUMMY, NEWS</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#" class="link-comments"><span>2</span> COMMENTS</a>
+                        </div>
+                        <div class="txt-1">Aston Martin Rapide S</div>
+                        <p>Lorem ipsum dolor sit amet consectetuer adipi scing elraesent ves tibm moeacuan nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque ptibus et magnis dis parturientdiculus mus. </p>
+                        <a href="http://livedemo00.template-help.com/wt_44442/#" class="btn btn-1">more</a>
+                    </li>
+                    <li>
+                        <figure>
+                            <img src="./CarFinder_files/page1-img7.jpg" alt="">
+                        </figure>
+                        <div class="comments">
+                            <time datetime="2013-07-14">14 JULY 2013</time>
+                            BY
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">ADMIN</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#">IN AENEAN NONUMMY, NEWS</a>
+                            <a href="http://livedemo00.template-help.com/wt_44442/#" class="link-comments"><span>2</span> COMMENTS</a>
+                        </div>
+                        <div class="txt-1">Cadillac ELR</div>
+                        <p>Lorem ipsum dolor sit amet consectetuer adipi scing elraesent ves tibm moeacuan nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque ptibus et magnis dis parturientdiculus mus. </p>
+                        <a href="http://livedemo00.template-help.com/wt_44442/#" class="btn btn-1">more</a>
+                    </li>-->
+                </ul>
+            </article>
+            <article class="span3">
+                <div class="block-events">
+                    <div style="padding-top:10px">
+                        <h3 style="font-size:20px; text-align:center;padding-top:0px; padding-bottom:0px">featured</h3>
+                        <h3 style="font-size:20px; text-align:center;padding-top:0px">{{extracarsYear}} </h3>
+                        <div class="list-events">
+                            <div ng-repeat="extracar in extracars" style="padding-bottom:30px">
+                                <div class="car{{extracar.id}}">
+                                    <div id="circularG" style="margin-left:15%;margin-top:7%">
+                                        <div id="circularG_1" class="circularG">
+                                        </div>
+                                        <div id="circularG_2" class="circularG">
+                                        </div>
+                                        <div id="circularG_3" class="circularG">
+                                        </div>
+                                        <div id="circularG_4" class="circularG">
+                                        </div>
+                                        <div id="circularG_5" class="circularG">
+                                        </div>
+                                        <div id="circularG_6" class="circularG">
+                                        </div>
+                                        <div id="circularG_7" class="circularG">
+                                        </div>
+                                        <div id="circularG_8" class="circularG">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="" class="link-1" ng-click="showCarDetailsModal(extracar)">
+                                    <figure>
+                                        <img src="{{extracar.images[0].url}}" alt="">
+                                    </figure>
+                                    <time datetime="{{extracar.model_year}}" ng-click="showCarDetailsModal(extracar)" class="date-1" style="padding-top:0px;padding-bottom:0px">MODEL OF {{extracar.model_year}}</time>
+                                    <p>{{extracar.make}} {{extracar.model_name}} {{extracar.model_trim}}</p>
+                                </a>
+                            </div>
+                        </div>
+                        <!--<a href="http://livedemo00.template-help.com/wt_44442/#" class="btn btn-1">view all</a>-->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+<!--============================== footer =================================-->
+<footer>
+    <div class="container">
+        <div class="privacy">
+            <!--dynamo  © 2013
+            <span>•</span>
+            <a href="http://livedemo00.template-help.com/wt_44442/index-6.html">privacy policy</a>&nbsp;-->
+
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+
+
+<script>
+    //$(window).load(function () {
+    //    jQuery('.camera_wrap').camera();
+
+    //});
+</script>

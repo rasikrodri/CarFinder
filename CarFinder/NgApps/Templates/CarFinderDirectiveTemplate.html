@@ -1,0 +1,354 @@
+﻿<div class="container-fluid">
+    <div class="row text-center">
+        <strong class="fontItalic fontitalic" style="font-size:50px">CAR FINDER</strong>
+    </div>
+    <div class="border-hor">
+        <span></span>
+    </div>
+    <div class="row" style="background-color:#141211">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="col-sm-6">
+                    <a href="Help"><strong class="menuItem">API</strong></a>
+                </div>
+                <div class="col-sm-6">
+                    <a href="" data-html="true" ng-click="manualSearch()" class=""><strong class="menuItem">SEARCH</strong></a>
+                </div>
+            </div>
+            <div class="zeroMarging-Padding col-sm-9">
+                <div class="zeroMarging-Padding col-sm-2">
+                    <div class="zeroMarging-Padding col-sm-4 text-left" style="text-align:left;margin-top:5px;padding-left:0px">
+                        <strong class="lead text-left" style="font-size:18px;">YEAR</strong>
+                    </div>
+                    <div class="zeroMarging-Padding col-sm-5">
+                        <select class="specsselect" ng-model="selectedYear" ng-options="year for year in years" ng-change="ResetPagingInfo(); getMakes()">
+                            <!--<option ng-options="year for year in years" value="{{year}}">{{year}}</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="zeroMarging-Padding col-sm-2">
+                    <div class="zeroMarging-Padding col-sm-4" style="margin-top:5px;padding-left:0px">
+                        <strong class="lead text-left zeroMarging-Padding" style="font-size:18px;">MAKE</strong>
+                    </div>
+                    <div class="zeroMarging-Padding col-sm-5">
+                        <select class="specsselect" ng-model="selectedMake" ng-options="make for make in makes" ng-change="ResetPagingInfo(); getModels()" ng-disabled="selectedYears==''">
+                            <!--<option ng-options="make for make in makes" value="{{make}}">{{make}}</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="zeroMarging-Padding col-sm-2">
+                    <div class="zeroMarging-Padding col-sm-4" style=";margin-top:5px;padding-left:0px">
+                        <strong class="lead text-left" style="font-size:18px;">MODEL</strong>
+                    </div>
+                    <div class="zeroMarging-Padding col-sm-5" style="padding-left:20px">
+                        <select class="specsselect" ng-model="selectedModel" ng-options="model for model in models" ng-change="ResetPagingInfo(); getTrims()" ng-disabled="selectedMake==''">
+                            <!--<option ng-options="model for model in models" value="{{model}}">{{model}}</option>-->
+
+                        </select>
+                    </div>
+                </div>
+                <div class="zeroMarging-Padding col-sm-2">
+                    <div class="col-sm-4" style="margin-top:5px;padding-left:5px">
+                        <strong class="lead" style="font-size:18px">TRIM</strong>
+                    </div>
+                    <div class="zeroMarging-Padding col-sm-5">
+                        <select class="specsselect" ng-model="selectedTrim" ng-options="trim for trim in trims" ng-change="ResetPagingInfo(); getCarsAsync()" ng-show="ShowTrimSelection()" ng-disabled="selectedModel==''">
+                            <!--<option ng-options="trim for trim in trims" value="{{trim}}">{{trim}}</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="zeroMarging-Padding col-sm-4">
+                    <div class="col-sm-6" style=";margin-top:8px">
+                        <strong style="font-size:10px;text-align:right" class="futured">CARS PER PAGE</strong>
+                    </div>
+                    <div class="text-right col-sm-6">
+                        <select class="specsselect text-left" data-ng-model="selectedShowAmmount" ng-options="amount for amount in showammounts" ng-change="getCarsAsync()" ng-disabled="selectedYears==''">
+                            <!--<option ng-options="amount for amount in showammounts" value="{{amount}}">{{amount}}</option>-->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <p style="text-align:center;color: #F38766;">
+                {{totalCars}} Cars found for -- {{selectedYear + "  -  " + selectedMake + "  -  " + selectedModel + "  -  " + selectedTrim}}
+            </p>
+        </div>
+    </div>
+    
+
+    <div class="border-hor">
+        <span></span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="padding-top:20px;padding-bottom:20px;">
+            <div class="car{{cars[0].id}} center-block keepimagessize1" ng-show="SlidesLoaded=='false'">
+                <div id="circularG" class="center-block">
+                    <div id="circularG_1" class="circularG">
+                    </div>
+                    <div id="circularG_2" class="circularG">
+                    </div>
+                    <div id="circularG_3" class="circularG">
+                    </div>
+                    <div id="circularG_4" class="circularG">
+                    </div>
+                    <div id="circularG_5" class="circularG">
+                    </div>
+                    <div id="circularG_6" class="circularG">
+                    </div>
+                    <div id="circularG_7" class="circularG">
+                    </div>
+                    <div id="circularG_8" class="circularG">
+                    </div>
+                </div>
+            </div>
+
+            <!--<style>
+                .carousel .item {
+    background:#F9F9F9;
+    border:1px solid #E0E0E0;
+    overflow:hidden;
+    margin-bottom:1em;
+    margin-top:1em;
+    padding:5px;
+}
+.carousel-inner > .item > img {
+    border: 1px solid #DDDDDD;
+    float: left;
+    margin: 0pt 3px;
+    padding: 2px;
+    height: none;
+    width:  100%;
+}
+
+.carousel-inner > .item > img:hover {
+    border: 1px solid #000000;
+}
+            </style>-->
+
+            <div class="center-block" style="height: 350px; width:600px" ng-show="slides.length==10">
+                <carousel interval="myInterval" ng-show="SlidesLoaded=='true'">
+                    <slide ng-repeat="slide in slides" active="slide.active" style="">
+                        <img ng-src="{{slide.image}}" style="margin:auto;height: 350px; width:600px">
+                    </slide>
+
+                    <a href="" class="link-1" ng-click="showCarDetailsModal(cars[0])">
+                        <div class="carousel-caption slidesOverlay" style="padding-top:0px; width:100%;left:0;bottom: 0px;  box-shadow: 0px -3px #f3501e;">
+                            <h3 style="color:rgb(80, 8, 8);text-shadow: 0 1px 2px rgba(243, 80, 30, 1);padding-bottom:0px; padding-top:0px;margin-top:0px;margin-bottom:0px">{{cars[0].make}}</h3>
+                            <p style="color:rgb(80, 8, 8);text-shadow: 0 1px 2px rgba(243, 80, 30, 1);padding-bottom:20px; margin-top:0px;margin-bottom:0px">{{cars[0].model_year}} - {{cars[0].model_name}} - {{cars[0].model_trim}}</p>       
+                            <!--<p name="name" class="btn btn-1 btn-sm" ng-click="showCarDetailsModal(car)" style="margin-top:20px">DETAILS</p>-->                                                 
+                        </div>
+                        <!--<div class="carousel-caption" style="box-shadow: 0px -3px #f3501e;">
+                            <h4 style="margin-top:0px;padding-top:0px">{{cars[0].make}}</h4>
+                            <p style="margin-top:0px;padding-top:0px;padding-bottom:0px">{{cars[0].model_year}} - {{cars[0].model_name}} - {{cars[0].model_trim}}</p>
+                        </div>-->
+                    </a>
+                    
+                </carousel>                
+            </div>
+
+            
+
+
+            <!-- 
+            <div id="carousel1" class="carousel slide text-center center-block" data-ride="carousel" style=" width:600px;height: 350px;">
+                
+                <div class="carousel-inner">
+                    <div class="item" id="carsSlidesToRemove" ng-repeat="slide in slides" active="slide.active">
+                        <img src="{{slide.image}}" alt="" style=" width:600px;height: 350px;" class="keepimagessizeCrousel" />
+                    </div>
+                    <div class="item active" style=" width:600px;height: 350px;">
+                        <img src="https://sp.yimg.com/ib/th?id=HN.608054871523329471&pid=15.1&P=0" alt="" class="keepimagessizeCrousel" />
+                    </div>
+                    <div class="item">
+                        <img src="https://sp.yimg.com/ib/th?id=HN.608051727608975078&pid=15.1&P=0" alt="" style=" width:600px;height: 350px;" class="keepimagessizeCrousel" />
+                    </div>
+                    <div class="item">
+                        <img src="https://sp.yimg.com/ib/th?id=HN.608050718293165753&pid=15.1&P=0" alt="" style=" width:600px;height: 350px;" class="keepimagessizeCrousel" />
+                    </div>
+                </div>
+               
+                <a class="left carousel-control" href="#carousel1" data-slide="prev"><span class="glyphicon glyphicon-arrow-left" style="color: #f3501e;"></span></a>
+                <a class="right carousel-control" href="#carousel1" data-slide="next"><span class="glyphicon glyphicon-arrow-right" style="color: #f3501e;"></span></a>
+                <div class="carousel-caption slidesOverlay" style="padding-top:0px; width:100%;left:0;bottom: 0px;  box-shadow: 0px -3px #f3501e;">
+                    <h3 style="color:rgb(80, 8, 8);text-shadow: 0 1px 2px rgba(243, 80, 30, 1);padding-bottom:0px; padding-top:0px;margin-top:0px;margin-bottom:0px">AUDI</h3>
+                    <p style="color:rgb(80, 8, 8);text-shadow: 0 1px 2px rgba(243, 80, 30, 1);padding-bottom:20px; margin-top:0px;margin-bottom:0px">MX 35T</p>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+    <div class="border-hor">
+        <span></span>
+    </div>
+    <div class="row">
+        <div class="container" style="padding-top:20px;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong class="futured" style="padding-top:10px;padding-bottom:20px;">FEATURED {{selectedYear}}</strong>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <ul class="pagination">
+                        <li>
+                            <a href="" ng-click="GoToPage(1)" class="ng-binding">FIRST</a></li><!-- ng-show="selectedPage!='1'"-->
+                        <li>
+                            <a href="" ng-click="GoToPrevPage(selectedPage)">&laquo;</a><!-- ng-show="selectedPage!=pagesAvailable"-->
+                        </li>
+                        <!--<li class="active">
+                            <a href="#">1 <span class="sr-only">(current)</span></a>
+                        </li>-->
+                        <li > <!--class="active"-->
+                            <a href="" ng-repeat="page in pages" ng-click="GoToPage(page)">
+                                {{page}}
+                                <!--<span class="sr-only" ng-if="selectedpage!=page">(current)</span>-->
+                            </a>
+                        </li>                        
+                        <!--<li>
+                            <a href="#">7</a>
+                        </li>-->
+                        <li>
+                            <a href="" ng-click="GoToNextPage(selectedPage)">&raquo;</a><!--ng-show="selectedPage!='1'"-->
+                        </li>
+                        <li>
+                            <a href="" ng-click="GoToPage(pagesAvailable)">LAST</a><!-- ng-show="selectedPage!=pagesAvailable"-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom:50px; ">
+                <div class="col-sm-3" style="text-align:center" ng-repeat="car in cars" ng-if="$index > 0 &&  $index < 5">
+                    <div class="car{{car.id}}">
+                        <div id="circularG" style="margin-left:15%;margin-top:7%" class="center-block">
+                            <div id="circularG_1" class="circularG">
+                            </div>
+                            <div id="circularG_2" class="circularG">
+                            </div>
+                            <div id="circularG_3" class="circularG">
+                            </div>
+                            <div id="circularG_4" class="circularG">
+                            </div>
+                            <div id="circularG_5" class="circularG">
+                            </div>
+                            <div id="circularG_6" class="circularG">
+                            </div>
+                            <div id="circularG_7" class="circularG">
+                            </div>
+                            <div id="circularG_8" class="circularG">
+                            </div>
+                        </div>
+                    </div>
+
+                    <img src="{{car.images[0].url}}" alt="" class="keepimagessize1" />
+                    <div class="row" style="padding-top:15px;"></div>
+                    <time class="futured" style="font-size:10px">MODEL OF {{car.model_year}}</time>
+                    <div class="row"></div>
+                    <p name="name" class="futured" style="padding-top:5px;font-size:15px;color:#ffffff">{{car.make}} {{car.model_name}} {{car.model_trim}}</p>
+                    <div class="row"></div>
+                    <a name="name" class="btn btn-1 btn-sm" ng-click="showCarDetailsModal(car)" style="margin-top:20px">DETAILS</a>
+                </div>
+            </div>
+            <div class="border-hor">
+                <span></span>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <strong class="futured" ng-show="cars[5]!=null" style="padding-top:40px;padding-bottom:20px">MORE FEATURED CARS</strong>
+                    <div class="col-sm-12">
+                        <div class="row" style="padding-bottom:35px" ng-repeat="car in cars" ng-if="$index > 4">
+                            <div class="col-sm-5 ">
+                                <div class="car{{car.id}}">
+                                    <div id="circularG" style="margin-left:15%;margin-top:7%">
+                                        <div id="circularG_1" class="circularG">
+                                        </div>
+                                        <div id="circularG_2" class="circularG">
+                                        </div>
+                                        <div id="circularG_3" class="circularG">
+                                        </div>
+                                        <div id="circularG_4" class="circularG">
+                                        </div>
+                                        <div id="circularG_5" class="circularG">
+                                        </div>
+                                        <div id="circularG_6" class="circularG">
+                                        </div>
+                                        <div id="circularG_7" class="circularG">
+                                        </div>
+                                        <div id="circularG_8" class="circularG">
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="{{car.images[0].url}}" class="keepimagessize2" />
+                            </div>
+                            <div class="col-sm-7" >
+                                <time class="futured" style="padding-left: 50px;font-size:10px;padding-top:23px;color:#807c79">MODEL OF {{car.model_year}}</time>
+                                <div class="border-hor" style="padding-left: 50px;padding-top:10px;">
+                                    <span></span>
+                                </div>
+                                <div class="row"></div>
+                                <p name="name" class="futured" style="padding-left: 50px;font-size:15px;padding-top:20px;color:#ffffff">{{car.make}} {{car.model_name}} {{car.model_trim}}</p>
+                                <p class="futured" style="padding-left: 50px;font-size:13px;padding-top:10px;color:#807c79;">Lorem ipsum dolor sit amet consectetuer adipi scing elraesent ves tibm moeacuan nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque ptibus et magnis dis parturientdiculus mus.</p>
+                                <div class="row"></div>
+                                <a name="name" class="btn btn-1 btn-sm" ng-click="showCarDetailsModal(car)" style="margin-left: 50px;margin-top:20px">DETAILS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 block-withsidebordersRigth block-withsidebordersrleft" style="background: url(Files-From-Pinegrow/border-vert.png) repeat-y 0 0;background-color:#141211; ">
+                    <h3 style="font-size: 20px; padding-top:10px; text-align: center;" class="futured">FEATURED</h3>
+                    <h3 style="font-size: 20px;  text-align: center;" class="futured">2014</h3>
+                    <div class="row" style="padding-top:20px;" ng-repeat="extracar in extracars">
+                        <div class="col-sm-7 ">
+                            <div class="car{{extracar.id}}">
+                                <div id="circularG" style="margin-left:15%;margin-top:7%">
+                                    <div id="circularG_1" class="circularG">
+                                    </div>
+                                    <div id="circularG_2" class="circularG">
+                                    </div>
+                                    <div id="circularG_3" class="circularG">
+                                    </div>
+                                    <div id="circularG_4" class="circularG">
+                                    </div>
+                                    <div id="circularG_5" class="circularG">
+                                    </div>
+                                    <div id="circularG_6" class="circularG">
+                                    </div>
+                                    <div id="circularG_7" class="circularG">
+                                    </div>
+                                    <div id="circularG_8" class="circularG">
+                                    </div>
+                                </div>
+                            </div>
+                            <img src="{{extracar.images[0].url}}" width="200" class="center-block keepimagessize0" />
+
+                        </div>
+                        <div class="col-sm-5">
+                            <time style="font-size:10px;padding-top:10px;; text-align:left" class="center-block futured">MODEL OF {{extracar.model_year}}</time>
+                            <p name="name" class="center-block futured" style="font-size:13px;padding-top:10px;color:#807c79;">{{extracar.make}} {{extracar.model_name}} {{extracar.model_trim}}</p>
+
+                        </div>
+                    </div>
+
+                    <div class="row"></div>
+                    <a name="name" class="btn btn-1 btn-sm" ng-click="takeMeToYear(extracarsYear)" style="margin-top:20px">VIEW ALL</a>
+
+                    <div class="border-hor">
+                        <div class="row pg-empty-placeholder" style="padding-bottom:50px"></div>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-hor">
+                <span></span>
+            </div>
+            <footer class="" style="margin-top:30px;margin-bottom:100px">
+                <div class="col-sm-2">
+                    <time>Car Finder © 2013</time>
+                </div>
+                <div class="col-sm-2">
+                    <time>By Rasik Rodriguez</time>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
